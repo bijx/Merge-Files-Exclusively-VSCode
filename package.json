@@ -1,0 +1,61 @@
+{
+  "name": "merge-files-recursively",
+  "icon": "images/icon.png",
+  "displayName": "Merge Files Recursively",
+  "description": "Recursively merge all files in a folder into a single output.txt.",
+  "version": "0.0.1",
+  "publisher": "HYPERSPC",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "activationEvents": [
+    "onCommand:extension.mergeFilesRecursively"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p ."
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "@types/vscode": "^1.50.0",
+    "typescript": "^4.0.3",
+    "vscode-test": "^1.4.0"
+  },
+  "dependencies": {
+    "ignore": "^5.2.2"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.mergeFilesRecursively",
+        "title": "Merge files recursively"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "extension.mergeFilesRecursively",
+          "group": "1_merge"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Merge Files Recursively",
+      "properties": {
+        "mergeFilesRecursively.excludeGitIgnored": {
+          "type": "boolean",
+          "default": true,
+          "description": "Exclude files and folders ignored by .gitignore when merging."
+        },
+        "mergeFilesRecursively.ignorePackageLock": {
+          "type": "boolean",
+          "default": true,
+          "description": "Exclude package lock files (package-lock.json, yarn.lock, pnpm-lock.yaml) when merging."
+        }
+      }
+    }
+  }
+}
