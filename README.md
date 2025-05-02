@@ -1,8 +1,8 @@
 # Merge Files Recursively
 
-A simple Visual Studio Code extension that adds a **right-click folder action** to recursively merge all files inside that folder and its subfolders into a single `output.txt`.
+A simple Visual Studio Code extension that adds a **right-click folder action** to recursively merge all files inside that folder and its subfolders into a single `output.txt`. Useful for passing as context to LLMs for debugging, packaging, or reviewing multiple source files at once.
 
-Useful for passing as context to LLMs for debugging, packaging, or reviewing multiple source files at once.
+Optimized for JS/TS projects, but works well with anything.
 
 ---
 
