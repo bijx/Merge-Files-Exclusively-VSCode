@@ -21,6 +21,7 @@ jobs:
       - run: npm run compile
 
       - name: Publish Extension
-        run: vsce publish
+        run: vsce publish    # might need to use: vsce publish -p "$VSCE_PAT"
         env:
-          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+    
