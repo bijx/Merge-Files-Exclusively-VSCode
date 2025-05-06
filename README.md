@@ -12,6 +12,8 @@ Optimized for JS/TS projects, but works well with anything.
 |----------------------------------------|---------|-------------|
 | `mergeFilesRecursively.excludeGitIgnored` | `true`  | Exclude files ignored by `.gitignore` files (both workspace and target folder) |
 | `mergeFilesRecursively.ignorePackageLock` | `true`  | Exclude lock files like `package-lock.json`, `yarn.lock`, etc. |
+| `mergeFilesRecursively.excludeMediaFiles` | `true`  | Exclude media files (images, videos, audio) when merging. |
+| `mergeFilesRecursively.customExcludedExtensions` | `""`  | Comma-separated list of additional file extensions to ignore (e.g., `.txt,.log,.tmp`). |
 
 You can configure these under **Settings → Extensions → Merge Files Recursively**.
 
