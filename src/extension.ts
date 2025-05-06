@@ -31,6 +31,14 @@ export function activate(context: vscode.ExtensionContext) {
       const excludeIgnored = config.get<boolean>('excludeGitIgnored', true);
       const ignoreLocks = config.get<boolean>('ignorePackageLock', true);
       const excludeMediaFiles = config.get<boolean>('excludeMediaFiles', true);
+      const customExcludedExtensionsString = config.get<string>('customExcludedExtensions', '');
+      
+      // Parse custom excluded extensions
+      const customExcludedExtensions = customExcludedExtensionsString
+        .split(',')
+        .map(ext => ext.trim())
+        .filter(ext => ext.length > 0)
+        .map(ext => ext.startsWith('.') ? ext.toLowerCase() : `.${ext.toLowerCase()}`);
 
       let igWorkspace: ReturnType<typeof ignore> | null = null;
       let igSelected: ReturnType<typeof ignore> | null = null;
@@ -84,6 +92,14 @@ export function activate(context: vscode.ExtensionContext) {
           if (
             excludeMediaFiles &&
             MEDIA_EXTENSIONS.some(ext => e.name.toLowerCase().endsWith(ext))
+          ) {
+            continue;
+          }
+
+          // Skip files with custom excluded extensions
+          if (
+            customExcludedExtensions.length > 0 &&
+            customExcludedExtensions.some(ext => e.name.toLowerCase().endsWith(ext))
           ) {
             continue;
           }
