@@ -51,6 +51,9 @@ export function activate(context: vscode.ExtensionContext) {
 
       const outputPath = path.join(selectedRoot, 'output.txt');
       const stream = fs.createWriteStream(outputPath, { flags: 'w' });
+      
+      // Track if we've written any files
+      let filesProcessed = false;
 
       async function walk(dir: string) {
         const entries = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -100,12 +103,19 @@ export function activate(context: vscode.ExtensionContext) {
             stream.write(`// ${relToSelected}\n`);
             const content = await fs.promises.readFile(full, 'utf8');
             stream.write(content + '\n');
+            filesProcessed = true;
           }
         }
       }
 
       try {
         await walk(selectedRoot);
+        
+        // If no files were processed, write a helpful message
+        if (!filesProcessed) {
+          stream.write("// If your output file is empty, try checking the extension settings to include specific file types\n");
+        }
+        
         stream.end();
         vscode.window.showInformationMessage(`Merged into ${outputPath}`);
       } catch (err: any) {
