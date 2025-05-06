@@ -3,6 +3,20 @@ import * as fs from 'fs';
 import * as path from 'path';
 import ignore from 'ignore';
 
+const MEDIA_EXTENSIONS = [
+  // Image formats
+  '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.tif', '.webp', '.svg', '.ico', '.heic', '.heif', 
+  '.raw', '.cr2', '.nef', '.arw', '.dng', '.psd', '.ai', '.eps', '.pdf', '.xcf',
+  
+  // Video formats
+  '.mp4', '.mov', '.avi', '.wmv', '.flv', '.webm', '.mkv', '.m4v', '.mpg', '.mpeg', '.3gp', '.ts', 
+  '.mts', '.m2ts', '.vob', '.ogv', '.rm', '.rmvb', '.asf', '.m2v', '.divx',
+  
+  // Audio formats
+  '.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a', '.wma', '.aiff', '.alac', '.mid', '.midi', 
+  '.amr', '.ape', '.opus', '.ac3', '.dts', '.ra', '.voc'
+];
+
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
     'extension.mergeFilesRecursively',
@@ -16,6 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
       const config = vscode.workspace.getConfiguration('mergeFilesRecursively');
       const excludeIgnored = config.get<boolean>('excludeGitIgnored', true);
       const ignoreLocks = config.get<boolean>('ignorePackageLock', true);
+      const excludeMediaFiles = config.get<boolean>('excludeMediaFiles', true);
 
       let igWorkspace: ReturnType<typeof ignore> | null = null;
       let igSelected: ReturnType<typeof ignore> | null = null;
@@ -58,6 +73,14 @@ export function activate(context: vscode.ExtensionContext) {
           if (
             ignoreLocks &&
             ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml'].includes(e.name)
+          ) {
+            continue;
+          }
+
+          // Skip media files if enabled
+          if (
+            excludeMediaFiles &&
+            MEDIA_EXTENSIONS.some(ext => e.name.toLowerCase().endsWith(ext))
           ) {
             continue;
           }

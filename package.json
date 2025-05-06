@@ -58,6 +58,11 @@
           "type": "boolean",
           "default": true,
           "description": "Exclude package lock files (package-lock.json, yarn.lock, pnpm-lock.yaml) when merging."
+        },
+        "mergeFilesRecursively.excludeMediaFiles": {
+          "type": "boolean",
+          "default": true,
+          "description": "Exclude media files (images, videos, audio) when merging."
         }
       }
     }
