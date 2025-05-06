@@ -61,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
       const stream = fs.createWriteStream(outputPath, { flags: 'w' });
       
       // Track if we've written any files
-      let filesProcessed = false;
+      let hasProcessedFiles = false;
 
       async function walk(dir: string) {
         const entries = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -119,7 +119,7 @@ export function activate(context: vscode.ExtensionContext) {
             stream.write(`// ${relToSelected}\n`);
             const content = await fs.promises.readFile(full, 'utf8');
             stream.write(content + '\n');
-            filesProcessed = true;
+            hasProcessedFiles = true;
           }
         }
       }
@@ -128,7 +128,7 @@ export function activate(context: vscode.ExtensionContext) {
         await walk(selectedRoot);
         
         // If no files were processed, write a helpful message
-        if (!filesProcessed) {
+        if (!hasProcessedFiles) {
           stream.write("// If your output file is empty, try checking the extension settings to include specific file types\n");
         }
         
