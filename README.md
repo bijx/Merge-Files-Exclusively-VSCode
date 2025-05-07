@@ -14,6 +14,7 @@ Optimized for JS/TS projects, but works well with anything.
 | `mergeFilesRecursively.ignorePackageLock` | `true`  | Exclude lock files like `package-lock.json`, `yarn.lock`, etc. |
 | `mergeFilesRecursively.excludeMediaFiles` | `true`  | Exclude media files (images, videos, audio) when merging. |
 | `mergeFilesRecursively.customExcludedExtensions` | `""`  | Comma-separated list of additional file extensions to ignore (e.g., `.txt,.log,.tmp`). |
+| `mergeFilesRecursively.maxLineLength` | `-1`  | Maximum number of lines a file can have to be included in the merge. Set to -1 for no limit. |
 
 You can configure these under **Settings → Extensions → Merge Files Recursively**.
 
