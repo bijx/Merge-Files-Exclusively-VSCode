@@ -32,6 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
       const ignoreLocks = config.get<boolean>('ignorePackageLock', true);
       const excludeMediaFiles = config.get<boolean>('excludeMediaFiles', true);
       const customExcludedExtensionsString = config.get<string>('customExcludedExtensions', '');
+      const maxLineLength = config.get<number>('maxLineLength', -1);
       
       // Parse custom excluded extensions
       const customExcludedExtensions = customExcludedExtensionsString
@@ -116,10 +117,34 @@ export function activate(context: vscode.ExtensionContext) {
           if (e.isDirectory()) {
             await walk(full);
           } else if (e.isFile()) {
-            stream.write(`// ${relToSelected}\n`);
-            const content = await fs.promises.readFile(full, 'utf8');
-            stream.write(content + '\n');
-            hasProcessedFiles = true;
+            try {
+              // Check file line count if max line length is set
+              if (maxLineLength >= 0) {
+                // Read file content
+                const content = await fs.promises.readFile(full, 'utf8');
+                // Count lines (adding 1 because split on newlines gives array length of lines + 1)
+                const lineCount = content.split('\n').length;
+                
+                // Skip file if it exceeds the max line length
+                if (lineCount > maxLineLength) {
+                  continue;
+                }
+                
+                // Write file to output
+                stream.write(`// ${relToSelected}\n`);
+                stream.write(content + '\n');
+                hasProcessedFiles = true;
+              } else {
+                // No line limit, just read and write the file
+                stream.write(`// ${relToSelected}\n`);
+                const content = await fs.promises.readFile(full, 'utf8');
+                stream.write(content + '\n');
+                hasProcessedFiles = true;
+              }
+            } catch (err) {
+              console.error(`Error processing file ${full}: ${err}`);
+              // Skip this file but continue with others
+            }
           }
         }
       }

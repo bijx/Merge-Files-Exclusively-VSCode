@@ -3,7 +3,7 @@
   "icon": "images/icon.png",
   "displayName": "Merge Files Recursively",
   "description": "Recursively merge all files in a folder into a single output.txt.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "HYPERSPC",
   "repository": {
     "type": "git",
@@ -68,6 +68,11 @@
           "type": "string",
           "default": "",
           "description": "Comma-separated list of additional file extensions to ignore (e.g., '.txt,.log,.tmp')"
+        },
+        "mergeFilesRecursively.maxLineLength": {
+          "type": "number",
+          "default": -1,
+          "description": "Maximum number of lines a file can have to be included in the merge. Set to -1 for no limit."
         }
       }
     }
