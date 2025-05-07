@@ -9,7 +9,7 @@ const MEDIA_EXTENSIONS = [
   '.raw', '.cr2', '.nef', '.arw', '.dng', '.psd', '.ai', '.eps', '.pdf', '.xcf',
   
   // Video formats
-  '.mp4', '.mov', '.avi', '.wmv', '.flv', '.webm', '.mkv', '.m4v', '.mpg', '.mpeg', '.3gp', '.ts', 
+  '.mp4', '.mov', '.avi', '.wmv', '.flv', '.webm', '.mkv', '.m4v', '.mpg', '.mpeg', '.3gp',
   '.mts', '.m2ts', '.vob', '.ogv', '.rm', '.rmvb', '.asf', '.m2v', '.divx',
   
   // Audio formats
